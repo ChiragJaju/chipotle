@@ -1,0 +1,25 @@
+{
+  "name": "chipotle",
+  "version": "1.0.0",
+  "description": "Description - \r Admin:\r Sidebar - \r     Current Orders:\r         When ready->click button (order ready)->send mail\r                     ->click button (order delivered) \r         Customize menu: For all items\r         Previous Orders:\r         // Weekly Performance  \r         Frequency table",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChiragJaju/chipotle.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChiragJaju/chipotle/issues"
+  },
+  "homepage": "https://github.com/ChiragJaju/chipotle#readme",
+  "keywords": [],
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  }
+}
