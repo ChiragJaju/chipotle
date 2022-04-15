@@ -84,21 +84,56 @@ app.get('/menu', (req, res) => {
 app.post('/order', (req, res) => {
   
   const order = req.body;
+  const email = req.body.email;
 
-  connection.query("insert into orders values (NULL, ?, ?, 'Preparing', ?, 1000, 11)", [order.orderTime, order.orderTime + 1800, order.deliveryOption], function (error, results, fields) {
-    if (error) throw error;
-    res.send(results);
-  });
+  let uid = 0;
+
+  connection.query("select uid from user where email = ?", [email], function(error, results, fields) {
+    if(error) throw error;
+    if(results.length > 0) uid = results[0].uid;
+
+    if(uid == 0) res.send("Auth error!")
+    else {
+      connection.query("insert into orders values (NULL, ?, ?, 'Preparing', ?, 1000, ?)", [order.orderTime, order.orderTime + 1800, order.deliveryOption, uid], function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+      });
+    }
+  })
+
 })
 
-app.get('/order-history', (req, res) => {
+app.get('/order-list/:t', (req, res) => {
   
-  const uid = req.query.id;
+  const email = req.query.email;
+  const t = req.params.t;
+  let uid = 0;
+  // /0 for current orders
+  // /1 for past orders
 
-  connection.query("select * from orders where ordered_by = ? and status = 'Done'", [uid], function (error, results, fields) {
-    if(results.length > 0) res.send(results)
+  connection.query("select uid from user where email = ?", [email], function(error, results, fields) {
+    if(error) throw error;
+    if(results.length > 0) uid = results[0].uid;
+
+    if(uid == 0) res.send("Auth error!")
     else {
-      res.send("No completed orders")
+
+      let query = "select * from orders where ordered_by = ? and status in "
+
+      if(t == 0) query += "('Preparing', 'Ready')"
+      else query += "('Collected')"
+
+      connection.query(query, [uid], function (error, results, fields) {
+        if(error) throw error;
+        if(results.length > 0) res.send(results)
+        else {
+          res.send("No orders to show")
+        }
+      });
+
     }
-  });
+
+  })
+
+  
 })
