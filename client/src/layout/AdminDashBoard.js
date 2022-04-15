@@ -1,20 +1,23 @@
 import { AppShell, Navbar, Header } from "@mantine/core";
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Menu2, ClipboardList } from "tabler-icons-react";
+import { Menu2, ClipboardList, Logout } from "tabler-icons-react";
 import SidebarButton from "../components/sidebarButton";
 import CurrentOrders from "../pages/Admin/Current Orders";
 import CustomizeMenu from "../pages/Admin/Custormize Menu";
 
 function Dashboard() {
-  const { whatToShow, setWhatToShow } = useContext(AuthContext);
+  const { whatToShow, setWhatToShow, setUser } = useContext(AuthContext);
 
-  function handleMenuClick() {
+  const handleMenuClick = () => {
     setWhatToShow("Menu");
-  }
-  function handleCurrentOrdersClick() {
+  };
+  const handleCurrentOrdersClick = () => {
     setWhatToShow("Current Orders Admin");
-  }
+  };
+  const handleSignout = () => {
+    setUser({ name: "none" });
+  };
 
   return (
     <AppShell
@@ -32,6 +35,12 @@ function Dashboard() {
             color="blue"
             label="Customize Menu"
             onClick={handleMenuClick}
+          />
+          <SidebarButton
+            icon={<Logout size={16} />}
+            color="red"
+            label="Sign Out"
+            onClick={handleSignout}
           />
         </Navbar>
       }

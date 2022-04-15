@@ -7,7 +7,7 @@ function AuthContextProvider(props) {
 
   const [dark, setDark] = useState(true);
   const [whatToShow, setWhatToShow] = useState("Menu");
-  const [user, setUser] = useState({ name: "admin" });
+  const [user, setUser] = useState({ name: "none" });
   return (
     <AuthContext.Provider
       value={{
