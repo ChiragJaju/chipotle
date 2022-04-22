@@ -13,6 +13,22 @@ import Google from "../resources/google.png";
 import { auth, provider } from "../services/firebase";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import AuthContext from "../context/AuthContext";
+import axios from "axios";
+
+const login = (n, e) => {
+  axios.post('http://localhost:5000/login', {
+    user: n,
+    email: e
+  })
+  .then(res => {
+    console.log("results")
+    console.log(res)
+  })
+  .catch(err => 
+    console.error(err)
+    
+  )
+}
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -85,6 +101,7 @@ export default function AuthenticationImage() {
 
         setUser({ name: "student" });
         console.log(signedInUser);
+        login(signedInUser.displayName, signedInUser.email)
       })
       .catch((error) => {
         console.log(error);

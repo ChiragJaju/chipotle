@@ -50,15 +50,17 @@ connection.connect(function(err) {
 });
 
 app.post('/login', (req, res) => {
-  const user = req.query.user
-  const email = req.query.email
+  const user = req.body.user
+  const email = req.body.email
 
-  connection.query("select * from user where uname = ? and email = ?", [user, email], function (error, results, fields) {
+  console.log(user, email)
+
+  connection.query("select * from user where email = ?", [email], function (error, results, fields) {
     if (error) throw error;
     if(results.length > 0) res.send(results)
     else {
 
-      connection.query("insert into user values(NULL, ?, ?, 'Valmiki', 320)", [email, user], function (error, results, fields) {
+      connection.query("insert into user values(NULL, ?, ?, NULL, NULL)", [email, user], function (error, results, fields) {
         if (error) throw error;
         res.send(results);
       });
@@ -96,6 +98,18 @@ app.post('/order', (req, res) => {
     else {
       connection.query("insert into orders values (NULL, ?, ?, 'Preparing', ?, 1000, ?)", [order.orderTime, order.orderTime + 1800, order.deliveryOption, uid], function (error, results, fields) {
         if (error) throw error;
+        let oid = 0;
+
+        connection.query("select max(oid) from orders", function(error, results, fields) {
+          if(error) throw error;
+
+          oid = results[0].oid;
+
+          order.items.forEach(item => {
+            connection.query("insert into order_items values(?, ?, ?)", [oid, item.id, item.quantity]);
+          });
+
+        })
         res.send(results);
       });
     }
