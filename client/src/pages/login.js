@@ -15,20 +15,18 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import AuthContext from "../context/AuthContext";
 import axios from "axios";
 
-const login = (n, e) => {
-  axios.post('http://localhost:5000/login', {
-    user: n,
-    email: e
-  })
-  .then(res => {
-    console.log("results")
-    console.log(res)
-  })
-  .catch(err => 
-    console.error(err)
-    
-  )
-}
+const login = async (n, e) => {
+  await axios
+    .post("http://localhost:5000/login", {
+      user: n,
+      email: e,
+    })
+    .then((res) => {
+      // console.log("results");
+      // console.log(res);
+    })
+    .catch((err) => console.error(err));
+};
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -100,8 +98,8 @@ export default function AuthenticationImage() {
         const signedInUser = result.user;
 
         setUser({ name: "student" });
-        console.log(signedInUser);
-        login(signedInUser.displayName, signedInUser.email)
+        // login(signedInUser.displayName, signedInUser.email);
+        // console.log(signedInUser);
       })
       .catch((error) => {
         console.log(error);
