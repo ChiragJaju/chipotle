@@ -40,7 +40,9 @@ export default function MenuCard(props) {
           justifyContent: "space-between",
         }}
       >
-        <Text weight={500}>{props.name}</Text>
+        <Text weight={500}>
+          {props.name} - ₹{props.price}
+        </Text>
         <div>
           <Button
             color="dark"

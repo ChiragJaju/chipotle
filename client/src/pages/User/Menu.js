@@ -1,23 +1,25 @@
 import { useState } from "react";
 import MenuCard from "../../components/Menu Card/MenuCard";
 import { Grid, Button } from "@mantine/core";
+import ConfirmOrder from "./confirmOrder";
 export default function Menu() {
   //UseState
-  const [stateMenu, setStateMenu] = useState({ french_fries: 0, burger: 0 });
+  const [stateMenu, setStateMenu] = useState({ French_Fries: 0, Burger: 0 });
   const [confirmOrder, setConfirmOrder] = useState(false);
-
-  let order = [];
+  const [order, setOrder] = useState([[], []]);
+  let l_order = [];
   // Submit function
   const handlePlaceOrder = () => {
-    setConfirmOrder(true);
-
     Object.keys(stateMenu).map((key) => {
       if (stateMenu[key] > 0) {
-        order.push({ name: key, quantity: stateMenu[key] });
+        l_order.push({ name: key, quantity: stateMenu[key] });
         // console.log(key);
       }
     });
-    console.log(order);
+    setOrder(l_order);
+    console.log(l_order);
+    setConfirmOrder(true);
+    // console.log(order);
   };
   const handleSubmit = () => {
     setConfirmOrder(false);
@@ -26,43 +28,45 @@ export default function Menu() {
   // Increase Decrease Function for all menu items
   const incFrenchFries = () => {
     setStateMenu((past) => {
-      return { ...past, french_fries: past.french_fries + 1 };
+      return { ...past, French_Fries: past.French_Fries + 1 };
     });
   };
   const decFrenchFries = () => {
-    if (stateMenu.french_fries > 0)
+    if (stateMenu.French_Fries > 0)
       setStateMenu((past) => {
-        return { ...past, french_fries: past.french_fries - 1 };
+        return { ...past, French_Fries: past.French_Fries - 1 };
       });
   };
 
   const incBurger = () => {
     setStateMenu((past) => {
-      return { ...past, burger: past.burger + 1 };
+      return { ...past, Burger: past.Burger + 1 };
     });
   };
   const decBurger = () => {
-    if (stateMenu.burger > 0)
+    if (stateMenu.Burger > 0)
       setStateMenu((past) => {
-        return { ...past, burger: past.burger - 1 };
+        return { ...past, Burger: past.Burger - 1 };
       });
   };
 
   const menu = [
     {
-      name: "French Fries",
+      name: "French_Fries",
       image:
         "https://aubreyskitchen.com/wp-content/uploads/2021/01/frozen-french-fries-in-air-fryer.jpg",
       increase: incFrenchFries,
       decrease: decFrenchFries,
-      quantity: stateMenu.french_fries,
+      quantity: stateMenu.French_Fries,
+      price: 80,
     },
     {
       name: "Burger",
       image: "",
       increase: incBurger,
       decrease: decBurger,
-      quantity: stateMenu.burger,
+      quantity: stateMenu.Burger,
+      price: 70,
     },
   ];
 
@@ -79,6 +83,7 @@ export default function Menu() {
               Confirm Order
             </Button>
           </div>
+          <ConfirmOrder order={order} menu={menu} />
         </>
       )}
       {confirmOrder === false && (
@@ -110,6 +115,7 @@ export default function Menu() {
                     increase={item.increase}
                     decrease={item.decrease}
                     quantity={item.quantity}
+                    price={item.price}
                   />
                 </Grid.Col>
               );
