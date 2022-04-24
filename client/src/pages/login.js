@@ -97,7 +97,7 @@ export default function AuthenticationImage() {
         // The signed-in user.
         const signedInUser = result.user;
 
-        setUser({ name: "student" });
+        setUser({ name: "student", email: "" });
         // login(signedInUser.displayName, signedInUser.email);
         // console.log(signedInUser);
       })

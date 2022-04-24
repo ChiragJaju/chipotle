@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import MenuCard from "../../components/Menu Card/MenuCard";
-import { Grid, Button } from "@mantine/core";
+import { Grid, Button, Divider } from "@mantine/core";
 import ConfirmOrder from "./confirmOrder";
-export default function Menu() {
+import AuthContext from "../../context/AuthContext";
+import axios from "axios";
+export default function Menu(props) {
   //UseState
   const [stateMenu, setStateMenu] = useState({ French_Fries: 0, Burger: 0 });
   const [confirmOrder, setConfirmOrder] = useState(false);
   const [order, setOrder] = useState([[], []]);
+  const [total, setTotal] = useState(0);
+  const { user } = useContext(AuthContext);
+
   let l_order = [];
   // Submit function
   const handlePlaceOrder = () => {
@@ -17,11 +22,18 @@ export default function Menu() {
       }
     });
     setOrder(l_order);
-    console.log(l_order);
+    // console.log(l_order);
     setConfirmOrder(true);
     // console.log(order);
   };
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // const response = await axios.post("url", {
+    //   email: "",
+    //   total: 0,
+    //   order: l_order,
+    // });
+    // console.log(user);
+    props.setWhatToShow("Current Orders User");
     setConfirmOrder(false);
   };
 
@@ -83,7 +95,8 @@ export default function Menu() {
               Confirm Order
             </Button>
           </div>
-          <ConfirmOrder order={order} menu={menu} />
+          <Divider />
+          <ConfirmOrder order={order} menu={menu} setTotal={setTotal} />
         </>
       )}
       {confirmOrder === false && (

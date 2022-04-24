@@ -60,7 +60,7 @@ function Dashboard() {
     >
       <>
         {whatToShow === "Current Orders User" && <CurrentOrders />}
-        {whatToShow === "Menu" && <Menu />}
+        {whatToShow === "Menu" && <Menu setWhatToShow={setWhatToShow} />}
       </>
     </AppShell>
   );
