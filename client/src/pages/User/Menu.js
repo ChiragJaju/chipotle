@@ -6,7 +6,19 @@ import AuthContext from "../../context/AuthContext";
 import axios from "axios";
 export default function Menu(props) {
   //UseState
-  const [stateMenu, setStateMenu] = useState({ French_Fries: 0, VegBurger: 0,ChickenBurger:0, PaneerRoll:0, EggRoll:0, ChickenRoll:0, VegSandwich:0, PaneerSandwich:0,ChickenSandwich:0, VegSub:0, ChickenSub:0});
+  const [stateMenu, setStateMenu] = useState({
+    French_Fries: 0,
+    VegBurger: 0,
+    ChickenBurger: 0,
+    PaneerRoll: 0,
+    EggRoll: 0,
+    ChickenRoll: 0,
+    VegSandwich: 0,
+    PaneerSandwich: 0,
+    ChickenSandwich: 0,
+    VegSub: 0,
+    ChickenSub: 0,
+  });
   const [confirmOrder, setConfirmOrder] = useState(false);
   const [order, setOrder] = useState([[], []]);
   const [total, setTotal] = useState(0);
@@ -33,6 +45,7 @@ export default function Menu(props) {
     //   order: l_order,
     // });
     // console.log(user);
+    const date = new Date();
     props.setWhatToShow("Current Orders User");
     setConfirmOrder(false);
   };
@@ -148,85 +161,96 @@ export default function Menu(props) {
       decrease: decFrenchFries,
       quantity: stateMenu.French_Fries,
       price: 80,
-      isVeg:true,
+      isVeg: true,
+      available: true,
     },
     {
-      name: "Veg Burger",
-      image: "https://www.vegrecipesofindia.com/wp-content/uploads/2020/12/burger-recipe-4.jpg",
+      name: "VegBurger",
+      image:
+        "https://www.vegrecipesofindia.com/wp-content/uploads/2020/12/burger-recipe-4.jpg",
       increase: incVegBurger,
       decrease: decVegBurger,
       quantity: stateMenu.VegBurger,
       price: 70,
-      isVeg:true,
+      isVeg: true,
+      available: true,
     },
     {
-      name: "Chicken Burger",
-      image: "https://www.chicken.ca/wp-content/uploads/2020/09/Moist-Chicken-Burgers.jpg",
+      name: "ChickenBurger",
+      image:
+        "https://www.chicken.ca/wp-content/uploads/2020/09/Moist-Chicken-Burgers.jpg",
       increase: incChickenBurger,
       decrease: decChickenBurger,
       quantity: stateMenu.ChickenBurger,
       price: 70,
-      isVeg:false,
+      isVeg: false,
+      available: true,
     },
     {
-      name: "Paneer Roll",
+      name: "PaneerRoll",
       image:
         "https://simmertoslimmer.com/wp-content/uploads/2021/06/Paneer-Kathi-Roll.jpg",
       increase: incPaneerRoll,
       decrease: decPaneerRoll,
       quantity: stateMenu.PaneerRoll,
       price: 70,
-      isVeg:true,
+      isVeg: true,
+      available: true,
     },
     {
-      name: "Egg Roll",
+      name: "EggRoll",
       image:
         "https://www.chefkunalkapur.com/wp-content/uploads/2021/08/CW0_7822-1300x865.jpg?v=1628745250",
       increase: incEggRoll,
       decrease: decEggRoll,
       quantity: stateMenu.EggRoll,
       price: 70,
-      isVeg:false,
+      isVeg: false,
+      available: true,
     },
     {
-      name: "Chicken Roll",
+      name: "ChickenRoll",
       image:
         "https://uploads-ssl.webflow.com/5c481361c604e53624138c2f/60f2ea67b471327a1d82959b_chicken%20roll_1500%20x%201200.jpg",
       increase: incChickenRoll,
       decrease: decChickenRoll,
       quantity: stateMenu.ChickenRoll,
       price: 90,
-      isVeg:false,
+      isVeg: false,
+      available: true,
     },
     {
-      name: "Veg Sandwich",
+      name: "VegSandwich",
       image:
         "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/05/club-sandwich-recipe.jpg",
       increase: incVegSandwich,
       decrease: decVegSandwich,
       quantity: stateMenu.VegSandwich,
       price: 70,
-      isVeg:true,
+      isVeg: true,
+      available: true,
     },
     {
-      name: "Paneer Sandwich",
+      name: "PaneerSandwich",
       image:
         "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/06/paneer-sandwich-recipe.jpg",
       increase: incPaneerSandwich,
       decrease: decPaneerSandwich,
       quantity: stateMenu.PaneerSandwich,
       price: 80,
-      isVeg:true,
+      isVeg: true,
+      available: true,
     },
     {
-      name: "Chicken Sandwich",
+      name: "ChickenSandwich",
       image:
         "https://www.spicebangla.com/wp-content/uploads/2019/05/P1015dd224.jpg",
       increase: incChickenSandwich,
       decrease: decChickenSandwich,
       quantity: stateMenu.ChickenSandwich,
       price: 90,
-      isVeg:false,
+      isVeg: false,
+      available: true,
     },
   ];
 
@@ -267,19 +291,24 @@ export default function Menu(props) {
               // },
             })}
           >
+            {" "}
             {menu.map((item) => {
               return (
-                <Grid.Col span={4}>
-                  <MenuCard
-                    name={item.name}
-                    image={item.image}
-                    increase={item.increase}
-                    decrease={item.decrease}
-                    quantity={item.quantity}
-                    price={item.price}
-                    isVeg = {item.isVeg}
-                  />
-                </Grid.Col>
+                <>
+                  {item.available && (
+                    <Grid.Col span={4}>
+                      <MenuCard
+                        name={item.name}
+                        image={item.image}
+                        increase={item.increase}
+                        decrease={item.decrease}
+                        quantity={item.quantity}
+                        price={item.price}
+                        isVeg={item.isVeg}
+                      />
+                    </Grid.Col>
+                  )}
+                </>
               );
             })}
           </Grid>

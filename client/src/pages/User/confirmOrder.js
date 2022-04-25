@@ -1,11 +1,12 @@
-import React from "react";
-import { Text, Paper, Table } from "@mantine/core";
+import { useState } from "react";
+import { Text, Paper, Table, Switch } from "@mantine/core";
 
-export default function confirmOrder(props) {
+export default function ConfirmOrder(props) {
   // console.log(props);
   let total = 0;
   let count = 1;
   let newMenu = [];
+  const [checked, setChecked] = useState(true);
   let rowsData = props.order.map((item) => {
     props.menu.forEach((menuItem) => {
       if (menuItem.name === item.name) {
@@ -63,6 +64,20 @@ export default function confirmOrder(props) {
         </Table>
       </Paper>
       <Text size="xl">Total : ₹{total}</Text>
+      <Text size="xl" sx={{ marginBottom: "15px", marginTop: "15px" }}>
+        {" "}
+        Hostel Delivery?{" "}
+      </Text>
+      <Switch
+        onLabel="Yes"
+        offLabel="No"
+        size="xl"
+        color="green"
+        onChange={(e) => {
+          setChecked(e.currentTarget.checked);
+        }}
+        value={checked}
+      />
     </>
   );
 }

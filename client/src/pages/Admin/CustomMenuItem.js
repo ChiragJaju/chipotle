@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import {
   Card,
   Image,
@@ -10,12 +10,10 @@ import {
   Switch,
   BackgroundImage,
 } from "@mantine/core";
-// import { process_params } from "express/lib/router";
-
-export default function MenuCard(props) {
-  const theme = useMantineTheme();
-  const secondaryColor = theme.colors.gray[7];
+export default function CustomMenuItem(props) {
   //   console.log(props);
+  const theme = useMantineTheme();
+  const [isAvailable, setIsAvailable] = useState(props.available);
   return (
     <Card
       shadow="sm"
@@ -71,29 +69,25 @@ export default function MenuCard(props) {
               }}
             ></div>
           )}
-
           <Text weight={500}>
             {props.name} - ₹{props.price}
-          </Text>
-        </div>
-        <div>
-          <Button
-            color="dark"
-            style={{ marginTop: 14, borderRadius: "20px", marginRight: "20px" }}
-            size="xs"
-            onClick={props.decrease}
-          >
-            -
-          </Button>
-          {props.quantity}
-          <Button
-            color="dark"
-            style={{ marginTop: 14, borderRadius: "20px", marginLeft: "20px" }}
-            size="xs"
-            onClick={props.increase}
-          >
-            +
-          </Button>
+          </Text>{" "}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <div style={{ display: "block" }}>
+            <Switch
+              label="Is Available"
+              size="md"
+              color="green"
+              checked={isAvailable}
+              onChange={(event) => {
+                //event.currentTarget.checked
+                props.setIsMenuChanged(true);
+                props.setAvailable();
+                setIsAvailable((x) => !x);
+                // console.log(props.available);
+              }}
+            />
+          </div>
         </div>
       </Group>
     </Card>

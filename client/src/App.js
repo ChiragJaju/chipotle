@@ -5,7 +5,7 @@ import { useState, useContext } from "react";
 import Login from "./pages/login";
 function App() {
   const { user } = useContext(AuthContext);
-  console.log(user);
+  // console.log(user);
   return (
     // <>{user.name === "admin" ? <AdminDashboard /> : <StudentDashboard />}</>
     <>
