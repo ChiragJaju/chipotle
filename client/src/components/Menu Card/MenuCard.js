@@ -20,6 +20,7 @@ export default function MenuCard(props) {
       shadow="sm"
       p="lg"
       sx={(theme) => ({
+        height: '330px'
         // backgroundColor: theme.colors.dark[1],
       })}
     >
@@ -38,11 +39,22 @@ export default function MenuCard(props) {
           marginBottom: 5,
           marginTop: theme.spacing.sm,
           justifyContent: "space-between",
+          flexDirection:'column'
         }}
       >
+      <div style={{display:'flex', flexDirection:'row', alignItems:'center', gap:'1rem'}}>
+      {props.isVeg && 
+        <div style={{height:"20px", width:"20px", backgroundColor:'green', borderRadius:"50%"}}></div>
+      }
+      {
+        !props.isVeg &&
+        <div style={{height:"20px", width:"20px", backgroundColor:'red', borderRadius:"50%"}}></div>
+      }
+        
         <Text weight={500}>
           {props.name} - ₹{props.price}
         </Text>
+        </div>
         <div>
           <Button
             color="dark"
