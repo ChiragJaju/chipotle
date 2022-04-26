@@ -1,6 +1,6 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import MenuCard from "../../components/Menu Card/MenuCard";
-import { Grid, Button, Divider } from "@mantine/core";
+import { Grid, Button, Divider, ACTION_ICON_SIZES } from "@mantine/core";
 import ConfirmOrder from "./confirmOrder";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
@@ -20,9 +20,10 @@ export default function Menu(props) {
     ChickenSub: 0,
   });
   const [confirmOrder, setConfirmOrder] = useState(false);
-  const [order, setOrder] = useState([[], []]);
+  const [order, setOrder] = useState([[]]);
   const [total, setTotal] = useState(0);
   const { user } = useContext(AuthContext);
+  const [checked, setChecked] = useState(false);
 
   let l_order = [];
   // Submit function
@@ -39,15 +40,36 @@ export default function Menu(props) {
     // console.log(order);
   };
   const handleSubmit = async () => {
-    // const response = await axios.post("url", {
-    //   email: "",
-    //   total: 0,
-    //   order: l_order,
-    // });
-    // console.log(user);
     const date = new Date();
+    await getMenu();
+    // console.log(menu);
+    const items = [];
+    menu.map((item) => {
+      if (stateMenu[item.name] !== 0)
+        items.push({ id: item.mid, quantity: stateMenu[item.name] });
+    });
+    const response = await axios.post("http://localhost:5000/order", {
+      orderTime: Math.floor(date.getTime() / 1000),
+      email: user.email,
+      deliveryOption: checked ? "Delivery" : "Takeaway",
+      items: items,
+    });
+    // console.log(response);
     props.setWhatToShow("Current Orders User");
     setConfirmOrder(false);
+  };
+  useEffect(() => {
+    getMenu();
+  }, []);
+
+  const getMenu = async () => {
+    const response = await axios.get("http://localhost:5000/menu");
+    response.data.map((item, i) => {
+      menu[i].mid = item.mid;
+      if (item.availability === 0) menu[i].available = false;
+    });
+    setShowMenu(menu);
+    // console.log(menu);
   };
 
   // Increase Decrease Function for all menu items
@@ -154,6 +176,7 @@ export default function Menu(props) {
 
   const menu = [
     {
+      mid: 0,
       name: "French_Fries",
       image:
         "https://aubreyskitchen.com/wp-content/uploads/2021/01/frozen-french-fries-in-air-fryer.jpg",
@@ -165,6 +188,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "VegBurger",
       image:
         "https://www.vegrecipesofindia.com/wp-content/uploads/2020/12/burger-recipe-4.jpg",
@@ -176,6 +200,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "ChickenBurger",
       image:
         "https://www.chicken.ca/wp-content/uploads/2020/09/Moist-Chicken-Burgers.jpg",
@@ -187,6 +212,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "PaneerRoll",
       image:
         "https://simmertoslimmer.com/wp-content/uploads/2021/06/Paneer-Kathi-Roll.jpg",
@@ -198,6 +224,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "EggRoll",
       image:
         "https://www.chefkunalkapur.com/wp-content/uploads/2021/08/CW0_7822-1300x865.jpg?v=1628745250",
@@ -209,6 +236,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "ChickenRoll",
       image:
         "https://uploads-ssl.webflow.com/5c481361c604e53624138c2f/60f2ea67b471327a1d82959b_chicken%20roll_1500%20x%201200.jpg",
@@ -220,6 +248,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "VegSandwich",
       image:
         "https://www.indianhealthyrecipes.com/wp-content/uploads/2019/05/club-sandwich-recipe.jpg",
@@ -231,6 +260,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "PaneerSandwich",
       image:
         "https://www.indianhealthyrecipes.com/wp-content/uploads/2021/06/paneer-sandwich-recipe.jpg",
@@ -242,6 +272,7 @@ export default function Menu(props) {
       available: true,
     },
     {
+      mid: 0,
       name: "ChickenSandwich",
       image:
         "https://www.spicebangla.com/wp-content/uploads/2019/05/P1015dd224.jpg",
@@ -253,6 +284,7 @@ export default function Menu(props) {
       available: true,
     },
   ];
+  const [showMenu, setShowMenu] = useState(menu);
 
   return (
     <>
@@ -268,7 +300,13 @@ export default function Menu(props) {
             </Button>
           </div>
           <Divider />
-          <ConfirmOrder order={order} menu={menu} setTotal={setTotal} />
+          <ConfirmOrder
+            order={order}
+            menu={menu}
+            setTotal={setTotal}
+            checked={checked}
+            setChecked={setChecked}
+          />
         </>
       )}
       {confirmOrder === false && (
@@ -292,17 +330,18 @@ export default function Menu(props) {
             })}
           >
             {" "}
-            {menu.map((item) => {
+            {showMenu.map((item, i) => {
               return (
                 <>
-                  {item.available && (
+                  {item.available === true && (
                     <Grid.Col span={4}>
                       <MenuCard
+                        stateMenu={stateMenu}
                         name={item.name}
                         image={item.image}
                         increase={item.increase}
                         decrease={item.decrease}
-                        quantity={item.quantity}
+                        quantity={stateMenu[item.name]}
                         price={item.price}
                         isVeg={item.isVeg}
                       />

@@ -6,7 +6,6 @@ export default function ConfirmOrder(props) {
   let total = 0;
   let count = 1;
   let newMenu = [];
-  const [checked, setChecked] = useState(true);
   let rowsData = props.order.map((item) => {
     props.menu.forEach((menuItem) => {
       if (menuItem.name === item.name) {
@@ -74,9 +73,10 @@ export default function ConfirmOrder(props) {
         size="xl"
         color="green"
         onChange={(e) => {
-          setChecked(e.currentTarget.checked);
+          // console.log(props.checked);
+          props.setChecked(e.currentTarget.checked);
         }}
-        value={checked}
+        value={props.checked}
       />
     </>
   );

@@ -87,6 +87,20 @@ export default function AuthenticationImage() {
     }
     setLoggedIn(false);
   };
+  const login = async (name, email) => {
+    const response = await axios.post("http://localhost:5000/login", {
+      user: name,
+      email: email,
+    });
+    setUser({
+      name: "student",
+      email: email,
+      uid: response.data[0].uid,
+    });
+    // console.log(response);
+    //TO-DO
+  };
+
   const onClick = async () => {
     // setLoggedIn(true);
     signInWithPopup(auth, provider)
@@ -97,8 +111,7 @@ export default function AuthenticationImage() {
         // The signed-in user.
         const signedInUser = result.user;
 
-        setUser({ name: "student", email: "" });
-        // login(signedInUser.displayName, signedInUser.email);
+        login(signedInUser.displayName, signedInUser.email);
         // console.log(signedInUser);
       })
       .catch((error) => {
