@@ -4,6 +4,7 @@ import CustomMenuItem from "./CustomMenuItem";
 import axios from "axios";
 export default function CustomizeMenu() {
   const [isMenuChanged, setIsMenuChanged] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const handleMenuChange = async () => {
     // console.log(menu);
     setIsMenuChanged(false);
@@ -106,7 +107,8 @@ export default function CustomizeMenu() {
       menu[i].mid = item.mid;
       if (item.availability === 0) menu[i].available = false;
     });
-
+    // console.log(menu);
+    setIsLoaded(true);
     setShowMenu(menu);
   };
   return (
@@ -131,27 +133,28 @@ export default function CustomizeMenu() {
           // },
         })}
       >
-        {showMenu.map((item, i) => {
-          return (
-            <Grid.Col span={4}>
-              <CustomMenuItem
-                name={item.name}
-                image={item.image}
-                price={item.price}
-                isVeg={item.isVeg}
-                available={item.available}
-                setIsMenuChanged={setIsMenuChanged}
-                setAvailable={() => {
-                  // console.log(item.available);
-                  console.log(showMenu);
-                  // item.available = !item.available;
-                  menu[i].available = !menu[i].available;
-                  setShowMenu(menu);
-                }}
-              />
-            </Grid.Col>
-          );
-        })}
+        {isLoaded === true &&
+          showMenu.map((item, i) => {
+            return (
+              <Grid.Col span={4}>
+                <CustomMenuItem
+                  name={item.name}
+                  image={item.image}
+                  price={item.price}
+                  isVeg={item.isVeg}
+                  available={item.available}
+                  setIsMenuChanged={setIsMenuChanged}
+                  setAvailable={() => {
+                    // console.log(item.available);
+                    console.log(showMenu);
+                    // item.available = !item.available;
+                    menu[i].available = !menu[i].available;
+                    setShowMenu(menu);
+                  }}
+                />
+              </Grid.Col>
+            );
+          })}
       </Grid>
     </>
   );

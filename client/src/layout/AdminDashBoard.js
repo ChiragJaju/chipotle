@@ -1,16 +1,20 @@
-import { AppShell, Navbar, Header } from "@mantine/core";
+import { AppShell, Navbar, Header, Text } from "@mantine/core";
 import { useState, useContext } from "react";
 import AuthContext from "../context/AuthContext";
-import { Menu2, ClipboardList, Logout } from "tabler-icons-react";
+import { Menu2, ClipboardList, Logout, ListCheck } from "tabler-icons-react";
 import SidebarButton from "../components/sidebarButton";
 import CurrentOrders from "../pages/Admin/Current Orders";
 import CustomizeMenu from "../pages/Admin/Custormize Menu";
+import Pastorders from "../pages/Admin/Pastorders";
 
 function Dashboard() {
   const { whatToShow, setWhatToShow, setUser } = useContext(AuthContext);
 
   const handleMenuClick = () => {
     setWhatToShow("Menu");
+  };
+  const handlePastOrdersClick = () => {
+    setWhatToShow("Past Orders");
   };
   const handleCurrentOrdersClick = () => {
     setWhatToShow("Current Orders Admin");
@@ -25,19 +29,25 @@ function Dashboard() {
       navbar={
         <Navbar width={{ base: 300 }} height={500} p="xs">
           <SidebarButton
-            icon={<Menu2 size={16} />}
+            icon={<Menu2 size={25} />}
             color="violet"
             label="Current Orders"
             onClick={handleCurrentOrdersClick}
           />
           <SidebarButton
-            icon={<ClipboardList size={16} />}
+            icon={<ClipboardList size={25} />}
             color="blue"
             label="Customize Menu"
             onClick={handleMenuClick}
           />
           <SidebarButton
-            icon={<Logout size={16} />}
+            icon={<ListCheck size={25} />}
+            color="green"
+            label="Past Orders"
+            onClick={handlePastOrdersClick}
+          />
+          <SidebarButton
+            icon={<Logout size={25} />}
             color="red"
             label="Sign Out"
             onClick={handleSignout}
@@ -46,22 +56,14 @@ function Dashboard() {
       }
       header={
         <Header height={60} p="xs">
-          {/* Header content */}Chipotle
+          <Text size="xl">{/* Header content */}Chipotle</Text>
         </Header>
       }
-      //   styles={(theme) => ({
-      //     main: {
-      //       backgroundColor:
-      //         theme.colorScheme === "dark"
-      //           ? theme.colors.dark[8]
-      //           : theme.colors.gray[0],
-      //     },
-      //   })}
-      // App here
     >
       <>
         {whatToShow === "Current Orders Admin" && <CurrentOrders />}
         {whatToShow === "Menu" && <CustomizeMenu />}
+        {whatToShow === "Past Orders" && <Pastorders />}
       </>
     </AppShell>
   );

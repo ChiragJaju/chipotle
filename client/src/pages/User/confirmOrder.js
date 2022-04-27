@@ -31,7 +31,7 @@ export default function ConfirmOrder(props) {
         <td>{item.srno}</td>
         <td>₹{item.price}</td>
         <td>{item.quantity}</td>
-        <td>{item.quantity * item.price}</td>
+        <td>₹{item.quantity * item.price}</td>
       </tr>
     );
   });
@@ -49,7 +49,7 @@ export default function ConfirmOrder(props) {
           marginTop: "20px ",
         })}
       >
-        <Table>
+        <Table fontSize="lg">
           <thead>
             <tr>
               <th>Sr.no</th>
@@ -62,8 +62,8 @@ export default function ConfirmOrder(props) {
           <tbody>{rows}</tbody>
         </Table>
       </Paper>
-      <Text size="xl">Total : ₹{total}</Text>
-      <Text size="xl" sx={{ marginBottom: "15px", marginTop: "15px" }}>
+      <Text sx={{ fontSize: "40px" }}>Total : ₹{total}</Text>
+      <Text sx={{ marginBottom: "15px", marginTop: "15px", fontSize: "20px" }}>
         {" "}
         Hostel Delivery?{" "}
       </Text>

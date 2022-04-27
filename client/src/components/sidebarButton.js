@@ -6,6 +6,7 @@ export default function MainLink(props) {
       onClick={props.onClick}
       sx={(theme) => ({
         display: "block",
+        height: "50px",
         width: "100%",
         padding: theme.spacing.xs,
         borderRadius: theme.radius.sm,
@@ -25,7 +26,7 @@ export default function MainLink(props) {
           {props.icon}
         </ThemeIcon>
 
-        <Text size="sm">{props.label}</Text>
+        <Text size="lg">{props.label}</Text>
       </Group>
     </UnstyledButton>
   );

@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import AdminCard from "../../components/Menu Card/AdminCard";
-import OrderCard from "./OrderCard";
-import { Grid, Text } from "@mantine/core";
 import axios from "axios";
-
-export default function CurrentOrders() {
+import { Grid } from "@mantine/core";
+import OrderCard from "./OrderCard";
+export default function Pastorders() {
   const [currentOrders, setCurrentOrders] = useState([{}]);
   useEffect(() => {
     updateData();
@@ -12,7 +10,7 @@ export default function CurrentOrders() {
   const updateData = async () => {
     const response = await axios.get("http://localhost:5000/all-orders");
     const tempCur = response.data.filter((item) => {
-      if (item.status === "Preparing") return true;
+      if (item.status === "Collected") return true;
       else return false;
     });
     setCurrentOrders(tempCur);
@@ -20,7 +18,6 @@ export default function CurrentOrders() {
 
   return (
     <>
-      {currentOrders.length === 0 && <Text size="xl"> No Current Orders.</Text>}
       <Grid>
         {currentOrders.map((order) => {
           return (
@@ -30,7 +27,11 @@ export default function CurrentOrders() {
               })}
               span={4}
             >
-              <OrderCard order={order} updateData={updateData} current={true} />
+              <OrderCard
+                order={order}
+                updateData={updateData}
+                current={false}
+              />
             </Grid.Col>
           );
         })}

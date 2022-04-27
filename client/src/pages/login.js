@@ -97,7 +97,7 @@ export default function AuthenticationImage() {
       email: email,
       uid: response.data[0].uid,
     });
-    // console.log(response);
+    console.log(response);
     //TO-DO
   };
 
@@ -112,7 +112,7 @@ export default function AuthenticationImage() {
         const signedInUser = result.user;
 
         login(signedInUser.displayName, signedInUser.email);
-        // console.log(signedInUser);
+        console.log(signedInUser);
       })
       .catch((error) => {
         console.log(error);

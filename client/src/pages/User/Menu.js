@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import MenuCard from "../../components/Menu Card/MenuCard";
-import { Grid, Button, Divider, ACTION_ICON_SIZES } from "@mantine/core";
+import { Grid, Button, Divider, Text } from "@mantine/core";
 import ConfirmOrder from "./confirmOrder";
 import AuthContext from "../../context/AuthContext";
 import axios from "axios";
@@ -23,6 +23,7 @@ export default function Menu(props) {
   const [order, setOrder] = useState([[]]);
   const [total, setTotal] = useState(0);
   const { user } = useContext(AuthContext);
+  const [correctOrder, setCorrectOrder] = useState(true);
   const [checked, setChecked] = useState(false);
 
   let l_order = [];
@@ -36,7 +37,9 @@ export default function Menu(props) {
     });
     setOrder(l_order);
     // console.log(l_order);
-    setConfirmOrder(true);
+    if (l_order.length > 0) setConfirmOrder(true);
+    else setCorrectOrder(false);
+
     // console.log(order);
   };
   const handleSubmit = async () => {
@@ -45,7 +48,7 @@ export default function Menu(props) {
     // console.log(menu);
     const items = [];
     menu.map((item) => {
-      if (stateMenu[item.name] !== 0)
+      if (stateMenu[item.name] > 0)
         items.push({ id: item.mid, quantity: stateMenu[item.name] });
     });
     const response = await axios.post("http://localhost:5000/order", {
@@ -69,6 +72,8 @@ export default function Menu(props) {
       if (item.availability === 0) menu[i].available = false;
     });
     setShowMenu(menu);
+    incFrenchFries();
+    decFrenchFries();
     // console.log(menu);
   };
 
@@ -79,10 +84,9 @@ export default function Menu(props) {
     });
   };
   const decFrenchFries = () => {
-    if (stateMenu.French_Fries > 0)
-      setStateMenu((past) => {
-        return { ...past, French_Fries: past.French_Fries - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, French_Fries: past.French_Fries - 1 };
+    });
   };
 
   const incVegBurger = () => {
@@ -91,10 +95,9 @@ export default function Menu(props) {
     });
   };
   const decVegBurger = () => {
-    if (stateMenu.VegBurger > 0)
-      setStateMenu((past) => {
-        return { ...past, VegBurger: past.VegBurger - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, VegBurger: past.VegBurger - 1 };
+    });
   };
   const incChickenBurger = () => {
     setStateMenu((past) => {
@@ -102,10 +105,9 @@ export default function Menu(props) {
     });
   };
   const decChickenBurger = () => {
-    if (stateMenu.ChickenBurger > 0)
-      setStateMenu((past) => {
-        return { ...past, ChickenBurger: past.ChickenBurger - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, ChickenBurger: past.ChickenBurger - 1 };
+    });
   };
   const incPaneerRoll = () => {
     setStateMenu((past) => {
@@ -113,10 +115,9 @@ export default function Menu(props) {
     });
   };
   const decPaneerRoll = () => {
-    if (stateMenu.PaneerRoll > 0)
-      setStateMenu((past) => {
-        return { ...past, PaneerRoll: past.PaneerRoll - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, PaneerRoll: past.PaneerRoll - 1 };
+    });
   };
   const incEggRoll = () => {
     setStateMenu((past) => {
@@ -124,10 +125,9 @@ export default function Menu(props) {
     });
   };
   const decEggRoll = () => {
-    if (stateMenu.EggRoll > 0)
-      setStateMenu((past) => {
-        return { ...past, EggRoll: past.EggRoll - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, EggRoll: past.EggRoll - 1 };
+    });
   };
   const incChickenRoll = () => {
     setStateMenu((past) => {
@@ -135,10 +135,9 @@ export default function Menu(props) {
     });
   };
   const decChickenRoll = () => {
-    if (stateMenu.ChickenRoll > 0)
-      setStateMenu((past) => {
-        return { ...past, ChickenRoll: past.ChickenRoll - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, ChickenRoll: past.ChickenRoll - 1 };
+    });
   };
   const incVegSandwich = () => {
     setStateMenu((past) => {
@@ -146,10 +145,9 @@ export default function Menu(props) {
     });
   };
   const decVegSandwich = () => {
-    if (stateMenu.VegSandwich > 0)
-      setStateMenu((past) => {
-        return { ...past, VegSandwich: past.VegSandwich - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, VegSandwich: past.VegSandwich - 1 };
+    });
   };
   const incPaneerSandwich = () => {
     setStateMenu((past) => {
@@ -157,10 +155,9 @@ export default function Menu(props) {
     });
   };
   const decPaneerSandwich = () => {
-    if (stateMenu.PaneerSandwich > 0)
-      setStateMenu((past) => {
-        return { ...past, PaneerSandwich: past.PaneerSandwich - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, PaneerSandwich: past.PaneerSandwich - 1 };
+    });
   };
   const incChickenSandwich = () => {
     setStateMenu((past) => {
@@ -168,10 +165,9 @@ export default function Menu(props) {
     });
   };
   const decChickenSandwich = () => {
-    if (stateMenu.ChickenSandwich > 0)
-      setStateMenu((past) => {
-        return { ...past, ChickenSandwich: past.ChickenSandwich - 1 };
-      });
+    setStateMenu((past) => {
+      return { ...past, ChickenSandwich: past.ChickenSandwich - 1 };
+    });
   };
 
   const menu = [
@@ -312,6 +308,16 @@ export default function Menu(props) {
       {confirmOrder === false && (
         <>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
+            {correctOrder === false && (
+              <Text
+                color="red"
+                size="lg"
+                weight={500}
+                sx={{ marginRight: "20px" }}
+              >
+                Please Add Atleast One Item.
+              </Text>
+            )}
             <Button
               sx={{ marginBottom: "20px", marginRight: "30px" }}
               color="dark"
