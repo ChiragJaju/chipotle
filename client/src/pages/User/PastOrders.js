@@ -14,7 +14,7 @@ export default function Pastorders() {
     const response = await axios.get(
       "http://localhost:5000/order-list/1?email=" + user.email
     );
-    console.log(response);
+    // console.log(response);
     if (response.data !== "No orders to show") {
       setCurrentOrders(response.data);
       setIsEmpty(false);

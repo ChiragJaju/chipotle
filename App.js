@@ -306,18 +306,17 @@ app.post("/item", (req, res) => {
 });
 
 app.put("/menu", (req, res) => {
-  const body = req.body;
+  const { menu } = req.body;
   let query = "";
 
-  body.forEach(item => {
-    query += `update menuitem set mname = ${item.name}, price = ${item.price}, isveg = ${item.isveg}, availability = ${item.available} where mid = ${item.mid}; `
-  })
+  menu.forEach((item) => {
+    query += `update menuitem set availability = ${item.available} where mid = ${item.mid}; `;
+  });
 
   connection.query(query, function (error, results, fields) {
-      if (error) throw error;
-      res.send(results);
-    }
-  );
+    if (error) throw error;
+    res.send(results);
+  });
 });
 
 app.delete("/item/:id", (req, res) => {

@@ -97,7 +97,7 @@ export default function AuthenticationImage() {
       email: email,
       uid: response.data[0].uid,
     });
-    console.log(response);
+    // console.log(response);
     //TO-DO
   };
 

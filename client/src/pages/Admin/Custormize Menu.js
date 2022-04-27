@@ -6,9 +6,61 @@ export default function CustomizeMenu() {
   const [isMenuChanged, setIsMenuChanged] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const handleMenuChange = async () => {
-    // console.log(menu);
+    menu.forEach((item, i) => {
+      item.mid = showMenu[i].mid;
+      item.available = stateMenu[item.name];
+    });
+    console.log(menu);
+    const reponse = await axios.put("http://localhost:5000/menu", {
+      menu: menu,
+    });
+    console.log(reponse);
     setIsMenuChanged(false);
-    // const reponse = await axios.post("url", { menu });
+  };
+  const triggerFrenchFries = () => {
+    setStateMenu((past) => {
+      return { ...past, French_Fries: !past.French_Fries };
+    });
+  };
+  const triggerVegBurger = () => {
+    setStateMenu((past) => {
+      return { ...past, VegBurger: !past.VegBurger };
+    });
+  };
+  const triggerChickenBurger = () => {
+    setStateMenu((past) => {
+      return { ...past, ChickenBurger: !past.ChickenBurger };
+    });
+  };
+  const triggerPaneerRoll = () => {
+    setStateMenu((past) => {
+      return { ...past, PaneerRoll: !past.PaneerRoll };
+    });
+  };
+  const triggerEggRoll = () => {
+    setStateMenu((past) => {
+      return { ...past, EggRoll: !past.EggRoll };
+    });
+  };
+  const triggerChickenRoll = () => {
+    setStateMenu((past) => {
+      return { ...past, ChickenRoll: !past.ChickenRoll };
+    });
+  };
+  const triggerVegSandwich = () => {
+    setStateMenu((past) => {
+      return { ...past, VegSandwich: !past.VegSandwich };
+    });
+  };
+  const triggerPaneerSandwich = () => {
+    setStateMenu((past) => {
+      return { ...past, PaneerSandwich: !past.PaneerSandwich };
+    });
+  };
+  const triggerChickenSandwich = () => {
+    setStateMenu((past) => {
+      return { ...past, ChickenSandwich: !past.ChickenSandwich };
+    });
   };
   const menu = [
     {
@@ -19,6 +71,7 @@ export default function CustomizeMenu() {
       price: 80,
       isVeg: true,
       available: true,
+      trigger: triggerFrenchFries,
     },
     {
       mid: 0,
@@ -28,6 +81,7 @@ export default function CustomizeMenu() {
       price: 70,
       isVeg: true,
       available: true,
+      trigger: triggerVegBurger,
     },
     {
       mid: 0,
@@ -37,6 +91,7 @@ export default function CustomizeMenu() {
       price: 70,
       isVeg: false,
       available: true,
+      trigger: triggerChickenBurger,
     },
     {
       mid: 0,
@@ -46,6 +101,7 @@ export default function CustomizeMenu() {
       price: 70,
       isVeg: true,
       available: true,
+      trigger: triggerPaneerRoll,
     },
     {
       mid: 0,
@@ -55,6 +111,7 @@ export default function CustomizeMenu() {
       price: 70,
       isVeg: false,
       available: true,
+      trigger: triggerEggRoll,
     },
     {
       mid: 0,
@@ -64,6 +121,7 @@ export default function CustomizeMenu() {
       price: 90,
       isVeg: false,
       available: true,
+      trigger: triggerChickenRoll,
     },
     {
       mid: 0,
@@ -73,6 +131,7 @@ export default function CustomizeMenu() {
       price: 70,
       isVeg: true,
       available: true,
+      trigger: triggerVegSandwich,
     },
     {
       mid: 0,
@@ -83,6 +142,7 @@ export default function CustomizeMenu() {
       price: 80,
       isVeg: true,
       available: true,
+      trigger: triggerPaneerSandwich,
     },
     {
       mid: 0,
@@ -92,9 +152,12 @@ export default function CustomizeMenu() {
       price: 90,
       isVeg: false,
       available: true,
+      trigger: triggerChickenSandwich,
     },
   ];
+
   const [showMenu, setShowMenu] = useState(menu);
+  const [stateMenu, setStateMenu] = useState({});
 
   // const [newMenu, setNewMenu] = useState(menu);
   useEffect(() => {
@@ -109,6 +172,17 @@ export default function CustomizeMenu() {
     });
     // console.log(menu);
     setIsLoaded(true);
+    setStateMenu({
+      French_Fries: menu[0].available,
+      VegBurger: menu[1].available,
+      ChickenBurger: menu[2].available,
+      PaneerRoll: menu[3].available,
+      EggRoll: menu[4].available,
+      ChickenRoll: menu[5].available,
+      VegSandwich: menu[6].available,
+      PaneerSandwich: menu[7].available,
+      ChickenSandwich: menu[8].available,
+    });
     setShowMenu(menu);
   };
   return (
@@ -145,11 +219,10 @@ export default function CustomizeMenu() {
                   available={item.available}
                   setIsMenuChanged={setIsMenuChanged}
                   setAvailable={() => {
-                    // console.log(item.available);
-                    console.log(showMenu);
-                    // item.available = !item.available;
-                    menu[i].available = !menu[i].available;
-                    setShowMenu(menu);
+                    // console.log(i);
+                    item.trigger();
+                    // menu[i].available = !menu[i].available;
+                    // setShowMenu(menu);
                   }}
                 />
               </Grid.Col>

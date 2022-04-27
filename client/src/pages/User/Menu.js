@@ -25,7 +25,7 @@ export default function Menu(props) {
   const { user } = useContext(AuthContext);
   const [correctOrder, setCorrectOrder] = useState(true);
   const [checked, setChecked] = useState(false);
-
+  // console.log(user);
   let l_order = [];
   // Submit function
   const handlePlaceOrder = () => {
