@@ -64,7 +64,7 @@ app.post("/login", (req, res) => {
       if (results.length > 0) res.send(results);
       else {
         connection.query(
-          "insert into user values(NULL, ?, ?, Valmiki, 320)",
+          "insert into user values(NULL, ?, ?, 'Valmiki', 320)",
           [email, user],
           function (error, results, fields) {
             if (error) throw error;
@@ -305,13 +305,15 @@ app.post("/item", (req, res) => {
   );
 });
 
-app.put("/item", (req, res) => {
+app.put("/menu", (req, res) => {
   const body = req.body;
+  let query = "";
 
-  connection.query(
-    "update menuitem set mname = ?, price = ?, availability = ?, readymade = ?, isveg = ? where mid = ?",
-    [body.name, body.price, body.available, body.readymade, body.veg, body.id],
-    function (error, results, fields) {
+  body.forEach(item => {
+    query += `update menuitem set mname = ${item.name}, price = ${item.price}, isveg = ${item.isveg}, availability = ${item.available} where mid = ${item.mid}; `
+  })
+
+  connection.query(query, function (error, results, fields) {
       if (error) throw error;
       res.send(results);
     }
