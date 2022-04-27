@@ -9,6 +9,7 @@ import {
   useMantineTheme,
   Switch,
   BackgroundImage,
+  Center,
 } from "@mantine/core";
 // import { process_params } from "express/lib/router";
 
@@ -21,7 +22,9 @@ export default function AdminCard(props) {
       shadow="sm"
       p="lg"
       sx={(theme) => ({
-        height: "330px",
+        height: "300px",
+        paddingRight:"20rem",
+        paddingLeft:"20rem"
         // backgroundColor: theme.colors.dark[1],
       })}
     >
@@ -29,47 +32,43 @@ export default function AdminCard(props) {
         position="apart"
         style={{
           marginBottom: 5,
+          marginLeft:5,
           marginTop: theme.spacing.sm,
           justifyContent: "space-between",
           flexDirection: "column",
+          paddingRight:20
         }}
       >
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
+            flexDirection: "column",
             alignItems: "center",
             gap: "1rem",
           }}
         >
-          {/* This will be used in bulleted list */}
-
-          {/* {props.isVeg && ( 
-             <div
-               style={{
-                 height: "20px",
-                 width: "20px",
-                 backgroundColor: "green",
-                 borderRadius: "50%",
-               }}
-             ></div>
-           )}
-           {!props.isVeg && (
-             <div
-               style={{
-                 height: "20px",
-                 width: "20px",
-                 backgroundColor: "red",
-                 borderRadius: "50%",
-               }}
-             ></div>
-           ) */}
           <Text weight={500}>{props.oid}</Text>
+          <h3>Order Items</h3>
+          
+          <ul>
+            {props.items.map(x => {
+              return (
+                
+              <table>
+                <tr>
+                <td>{x.name}</td>
+                <td>{x.price}</td>
+                <td>{x.quantity}</td>
+
+                </tr>
+                
+              </table>
+              )
+            })}
+          </ul>
+
         </div>
         <div>
-          {/* <View style={{ borderStyle: "solid", justifyContent: "center" }}>
-            {props.items}
-          </View> */}
         </div>
       </Group>
     </Card>
